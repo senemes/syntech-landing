@@ -292,16 +292,15 @@ function Nav({ show, onMenuOpen }) {
       transition: "opacity 500ms ease-out, transform 500ms ease-out, background 0.4s ease, border-color 0.4s ease",
     }}>
       <div style={{ display: "flex", alignItems: "center" }}>
-        <img src="/logo.avif" alt="SynTech Trust" style={{ height: 36, width: "auto" }}/>
+        <img src="/logo.avif" alt="SynTech Trust" style={{ height: 54, width: "auto" }}/>
       </div>
-      <div className="nav-tags" style={{ display: "flex", gap: 8, alignItems: "center" }}>
-        {["Bitcoin Mining", "ASIC Hardware"].map(tag => (
-          <span key={tag} style={{
-            padding: "5px 14px", borderRadius: 50, fontSize: 12,
-            background: C.accentSoft, color: C.muted,
-            border: `1px solid rgba(34,197,94,0.15)`,
-            fontFamily: "'Outfit', sans-serif", fontWeight: 500,
-          }}>{tag}</span>
+      <div className="nav-links-desktop" style={{ display: "flex", gap: 24, alignItems: "center" }}>
+        {[["Home","home"],["Services","services"],["Figures","figures"],["Products","products"],["Partners","partners"],["Contact","contact"],["Provider","#"]].map(([label, id]) => (
+          <a key={id} href={id === "#" ? "#" : `#${id}`} className="nav-link" style={{
+            color: C.muted, textDecoration: "none", fontSize: 16,
+            fontFamily: "'Outfit', sans-serif", fontWeight: 400, position: "relative",
+            textShadow: "0 0 12px rgba(34,197,94,0.4)",
+          }}>{label}</a>
         ))}
       </div>
       <HamburgerBtn open={false} onClick={onMenuOpen}/>
@@ -331,62 +330,64 @@ function HeroSection({ borderRadius, onMenuOpen }) {
   });
 
   return (
-    <Card id="home" className="hero-card" style={{ overflow: "hidden", position: "relative", minHeight: 580, borderRadius, transition: "border-radius 0.3s ease" }}>
+    <Card id="home" className="hero-card" style={{ overflow: "hidden", position: "relative", minHeight: 620, borderRadius: Math.max(borderRadius, 20), transition: "border-radius 0.3s ease", display: "flex", flexDirection: "column" }}>
+      {/* ── Split photo background ── */}
       <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
-        <div style={{
-          position: "absolute", inset: 0,
-          background: `
-            radial-gradient(ellipse 600px 400px at 50% 70%, rgba(34,197,94,0.12), transparent),
-            radial-gradient(ellipse 400px 300px at 30% 50%, rgba(20,120,60,0.08), transparent),
-            radial-gradient(ellipse 300px 200px at 70% 30%, rgba(30,160,80,0.06), transparent)
-          `,
-          animation: "kenBurns 20s ease-in-out infinite alternate",
-        }}/>
-        <svg style={{ position: "absolute", bottom: 0, left: 0, right: 0, width: "100%", height: "55%" }} viewBox="0 0 1200 400" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="h1" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={C.accent} stopOpacity="0.08"/>
-              <stop offset="100%" stopColor={C.accent} stopOpacity="0.02"/>
-            </linearGradient>
-            <linearGradient id="h2" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#16A34A" stopOpacity="0.1"/>
-              <stop offset="100%" stopColor="#15803D" stopOpacity="0.03"/>
-            </linearGradient>
-          </defs>
-          <path d="M0,220 Q150,140 300,190 Q500,100 700,170 Q900,80 1200,150 L1200,400 L0,400Z" fill="url(#h1)"/>
-          <path d="M0,290 Q200,210 400,270 Q600,190 800,250 Q1000,170 1200,230 L1200,400 L0,400Z" fill="url(#h2)"/>
-          <path d="M560,400 Q575,340 610,290 Q640,250 670,230" fill="none" stroke="rgba(34,197,94,0.15)" strokeWidth="4" strokeLinecap="round"/>
-          <path d="M560,400 Q575,340 610,290 Q640,250 670,230" fill="none" stroke="rgba(34,197,94,0.4)" strokeWidth="1" strokeLinecap="round"/>
-        </svg>
-      </div>
-
-      <div className="hero-nav" style={{
-        position: "relative", zIndex: 2, display: "flex", alignItems: "center",
-        justifyContent: "space-between", padding: "22px 36px",
-      }}>
-        <img src="/logo.avif" alt="SynTech Trust" style={{ height: 32, width: "auto" }}/>
-        <div className="hero-nav-links" style={{ display: "flex", gap: 28, alignItems: "center" }}>
-          {[["Home","home"],["Services","services"],["Figures","figures"],["Products","products"],["Partners","partners"],["Contact","contact"]].map(([label, id]) => (
-            <a key={id} href={`#${id}`} className="nav-link" style={{
-              color: C.muted, textDecoration: "none", fontSize: 13,
-              fontFamily: "'Outfit', sans-serif", fontWeight: 400, position: "relative",
-            }}>
-              {label}
-            </a>
-          ))}
-          <a href="#" className="nav-link" style={{
-            color: C.muted, fontSize: 13,
-            fontFamily: "'Outfit', sans-serif", fontWeight: 400, position: "relative",
-          }}>Provider</a>
+        {/* Left photo */}
+        <div className="hero-photo-left" style={{
+          position: "absolute", top: 0, left: 0, width: "50%", height: "100%", overflow: "hidden",
+        }}>
+          <img src="/hero-left.png" alt="" style={{
+            width: "100%", height: "100%", objectFit: "cover", objectPosition: "center",
+            animation: "heroPhotoLeft 2.2s ease-out both",
+          }}/>
+          <div style={{ position: "absolute", inset: 0, background: "rgba(0,22,8,0.65)" }}/>
         </div>
-        <HamburgerBtn open={false} onClick={onMenuOpen}/>
+        {/* Right photo */}
+        <div className="hero-photo-right" style={{
+          position: "absolute", top: 0, right: 0, width: "50%", height: "100%", overflow: "hidden",
+        }}>
+          <img src="/hero-right.png" alt="" style={{
+            width: "100%", height: "100%", objectFit: "cover", objectPosition: "center",
+            animation: "heroPhotoRight 2.2s ease-out both",
+          }}/>
+          <div style={{ position: "absolute", inset: 0, background: "rgba(0,22,8,0.65)" }}/>
+        </div>
+        {/* Center blend strip */}
+        <div style={{
+          position: "absolute", top: 0, bottom: 0, left: "45%", width: "10%", zIndex: 2,
+          background: "linear-gradient(90deg, rgba(0,18,6,0.9), transparent 40%, transparent 60%, rgba(0,18,6,0.9))",
+        }}/>
+        {/* Center divider line */}
+        <div style={{
+          position: "absolute", left: "50%", top: "20%", height: "60%", width: 1,
+          background: "rgba(0,255,80,0.12)", zIndex: 3, transform: "translateX(-0.5px)",
+        }}/>
+        {/* Edge vignettes */}
+        <div style={{
+          position: "absolute", inset: 0, zIndex: 2,
+          background: "linear-gradient(180deg, rgba(0,15,5,0.6) 0%, transparent 20%, transparent 80%, rgba(0,15,5,0.7) 100%)",
+        }}/>
       </div>
 
-      <div className="hero-content" style={{ position: "relative", zIndex: 2, textAlign: "center", padding: "50px 40px 100px" }}>
+
+      {/* ── Text content ── */}
+      <div className="hero-content" style={{
+        position: "relative", zIndex: 10, textAlign: "center",
+        padding: "40px 40px 80px",
+        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+        flex: 1, minHeight: 0,
+      }}>
+        {/* Readability overlay behind text */}
+        <div style={{
+          position: "absolute", inset: 0, zIndex: -1,
+          background: "radial-gradient(ellipse 55% 60% at 50% 50%, rgba(0,12,4,0.55) 0%, transparent 100%)",
+        }}/>
+
         <div style={{
           display: "inline-flex", alignItems: "center", gap: 8,
-          padding: "5px 16px", borderRadius: 50, background: C.accentSoft,
-          border: `1px solid rgba(34,197,94,0.2)`, marginBottom: 28,
+          padding: "5px 16px", borderRadius: 50, background: "rgba(34,197,94,0.15)",
+          border: `1px solid rgba(34,197,94,0.25)`, marginBottom: 32,
           opacity: phase >= 1 ? 1 : 0,
           transition: "opacity 0.5s ease",
         }}>
@@ -396,14 +397,14 @@ function HeroSection({ borderRadius, onMenuOpen }) {
           </span>
         </div>
 
-        <h1 className="hero-h1" style={{ fontFamily: "'Syne', sans-serif", fontSize: 68, fontWeight: 800, color: C.white, lineHeight: 1.06, margin: 0, letterSpacing: -3, overflow: "hidden" }}>
+        <h1 className="hero-h1" style={{ fontFamily: "'Syne', sans-serif", fontSize: 78, fontWeight: 800, color: C.white, lineHeight: 1.04, margin: 0, letterSpacing: -3.5, overflow: "hidden" }}>
           <span style={slide(1)}>Your Trusted Path</span>
           <span style={slide(2, { color: C.accent, transitionDelay: "150ms" })}>to Mining</span>
         </h1>
 
         <p className="hero-p" style={{
-          fontFamily: "'Outfit', sans-serif", fontSize: 17, color: C.muted,
-          maxWidth: 480, margin: "26px auto 36px", lineHeight: 1.7,
+          fontFamily: "'Outfit', sans-serif", fontSize: 19, color: "rgba(255,255,255,0.7)",
+          maxWidth: 600, margin: "30px auto 40px", lineHeight: 1.7,
           opacity: phase >= 3 ? 1 : 0,
           transform: phase >= 3 ? "translateY(0)" : "translateY(30px)",
           transition: "opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1)",
@@ -416,7 +417,7 @@ function HeroSection({ borderRadius, onMenuOpen }) {
           transform: phase >= 4 ? "scale(1)" : "scale(0.85)",
           transition: "opacity 0.5s cubic-bezier(.22,1,.36,1), transform 0.5s cubic-bezier(.22,1,.36,1)",
         }}>
-          <Btn>Start Now</Btn>
+          <Btn onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })} style={{ padding: "18px 48px", fontSize: 15 }}>Start Now</Btn>
         </div>
       </div>
     </Card>
@@ -498,7 +499,7 @@ function AboutSection() {
 
 /* ─── SERVICES ─── */
 function ServicesSection() {
-  const [expanded, setExpanded] = useState(0);
+  const [expanded, setExpanded] = useState(new Set([0]));
   const fade = useFadeIn(0);
   const tagsRef = useRef(null);
   const [tagsVisible, setTagsVisible] = useState(false);
@@ -529,7 +530,7 @@ function ServicesSection() {
           <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, fontWeight: 600, color: C.accent, letterSpacing: 3, textTransform: "uppercase" }}>Services</span>
           <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, color: C.faint, marginTop: 4 }}>(02-08)</div>
           <div style={{ marginTop: 20 }}>
-            <Btn style={{ fontSize: 13, padding: "10px 20px" }}>Get Quote</Btn>
+            <Btn onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })} style={{ fontSize: 13, padding: "10px 20px" }}>Get Quote</Btn>
           </div>
         </div>
         <div style={{ flex: 1 }}>
@@ -554,10 +555,14 @@ function ServicesSection() {
 
       <div>
         {services.map((s, i) => {
-          const isOpen = expanded === i;
+          const isOpen = expanded.has(i);
           return (
             <div key={i}
-              onClick={() => setExpanded(isOpen ? -1 : i)}
+              onClick={() => setExpanded(prev => {
+                const next = new Set(prev);
+                if (next.has(i)) next.delete(i); else next.add(i);
+                return next;
+              })}
               className="service-row"
               style={{
                 borderTop: `1px solid rgba(34,197,94,0.1)`,
@@ -587,13 +592,19 @@ function ServicesSection() {
                 </div>
               </div>
               <div className="service-toggle" style={{
-                width: 36, height: 36, borderRadius: 8,
-                background: isOpen ? C.lime : "rgba(255,255,255,0.06)",
-                display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-                transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
-                transition: "all 0.3s ease",
+                width: 48, height: 28, borderRadius: 14,
+                background: isOpen ? C.lime : "rgba(255,255,255,0.1)",
+                display: "flex", alignItems: "center", flexShrink: 0,
+                padding: 3,
+                transition: "background 0.3s ease",
+                cursor: "pointer",
               }}>
-                <LinkArrow/>
+                <div style={{
+                  width: 22, height: 22, borderRadius: "50%",
+                  background: isOpen ? "#fff" : "rgba(255,255,255,0.3)",
+                  transform: isOpen ? "translateX(20px)" : "translateX(0)",
+                  transition: "transform 0.3s cubic-bezier(.22,1,.36,1), background 0.3s ease",
+                }}/>
               </div>
             </div>
           );
@@ -604,9 +615,18 @@ function ServicesSection() {
 }
 
 /* ─── TESTIMONIALS ─── */
+const TESTIMONIALS = [
+  { logo: "/partner1.avif", quote: "SynTech Trust has completely transformed how we manage our ASIC fleet. Their repair quality is unmatched — boards come back performing better than before, and the turnaround time is incredibly fast. A partner you can truly rely on." },
+  { logo: "/partner2.avif", quote: "SynTech Trust has proven to be a highly reliable and technically competent B2B partner. Throughout our cooperation, the company consistently demonstrated strong operational discipline, deep industry expertise, and a clear understanding of enterprise-level requirements." },
+  { logo: "/partner3.avif", quote: "SynTech Trust operates with a partnership mindset rather than a transactional one. They demonstrate accountability at every stage, take ownership of outcomes, and actively propose improvements that enhance operational efficiency and overall performance." },
+];
+
 function TestimonialSection() {
   const containerRef = useRef(null);
   const [visible, setVisible] = useState(false);
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const prevRef = useRef(0);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -614,6 +634,19 @@ function TestimonialSection() {
     obs.observe(containerRef.current);
     return () => obs.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (!visible || paused) return;
+    const timer = setInterval(() => {
+      setActive(prev => {
+        prevRef.current = prev;
+        return (prev + 1) % TESTIMONIALS.length;
+      });
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [visible, paused]);
+
+  const goTo = (i) => { prevRef.current = active; setActive(i); };
 
   return (
     <Card id="partners" className="section-card" style={{ padding: "52px" }}>
@@ -633,33 +666,73 @@ function TestimonialSection() {
           </p>
         </div>
 
-        <div className="testimonial-block" style={{
-          background: `linear-gradient(135deg, rgba(34,197,94,0.07), rgba(34,197,94,0.02))`,
-          border: `1px solid ${C.borderHover}`,
-          borderRadius: 20, padding: "52px 60px",
-          animation: visible ? "slideInRight 0.8s cubic-bezier(.22,1,.36,1) 200ms both" : "none",
-        }}>
-          <div style={{ fontSize: 64, lineHeight: 1, color: C.accent, fontFamily: "'Syne', sans-serif", marginBottom: 24, opacity: 0.6 }}>"</div>
-          <p className="testimonial-text" style={{
-            fontFamily: "'Syne', sans-serif", fontSize: 22, lineHeight: 1.6,
-            color: C.white, margin: 0, fontWeight: 500, letterSpacing: -0.3, maxWidth: 820,
-          }}>
-            SynTech Trust has completely transformed how we manage our ASIC fleet. Their repair quality is unmatched — boards come back performing better than before, and the turnaround time is incredibly fast. A partner you can truly rely on.
-          </p>
-          <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 36 }}>
-            <div style={{
-              width: 44, height: 44, borderRadius: "50%",
-              background: `linear-gradient(135deg, hsl(140,50%,35%), hsl(150,40%,28%))`,
-              border: `2px solid ${C.borderHover}`,
-            }}/>
-            <div>
-              <div style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 700, fontSize: 15, color: C.white }}>Data Prana</div>
-              <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, color: C.muted, marginTop: 2 }}>Partner</div>
-            </div>
-            <div style={{ marginLeft: "auto", display: "flex", gap: 3 }}>
-              {[1,2,3,4,5].map(s => <StarIcon key={s} delay={s * 80} triggered={visible}/>)}
-            </div>
-          </div>
+        {/* Carousel */}
+        <div
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          style={{ position: "relative", overflow: "hidden" }}
+        >
+          {TESTIMONIALS.map((t, idx) => {
+            const isActive = idx === active;
+            const isLeaving = idx === prevRef.current && idx !== active;
+            return (
+              <div key={idx} className="testimonial-block" style={{
+                background: isActive
+                  ? `linear-gradient(135deg, rgba(34,197,94,0.09), rgba(34,197,94,0.03))`
+                  : `linear-gradient(135deg, rgba(34,197,94,0.07), rgba(34,197,94,0.02))`,
+                border: `1px solid ${C.borderHover}`,
+                borderRadius: 20, padding: "52px 60px",
+                position: idx === 0 ? "relative" : "absolute",
+              visibility: idx === 0 || isActive ? "visible" : "hidden",
+                top: 0, left: 0, right: 0,
+                opacity: isActive ? 1 : 0,
+                transform: isActive
+                  ? "translateY(0) scale(1)"
+                  : isLeaving
+                    ? "translateY(-12px) scale(0.98)"
+                    : "translateY(14px) scale(0.98)",
+                pointerEvents: isActive ? "auto" : "none",
+                transition: "opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1), background 0.4s ease",
+                boxShadow: isActive ? "0 0 60px rgba(34,197,94,0.06)" : "none",
+              }}>
+                <div style={{ fontSize: 64, lineHeight: 1, color: C.accent, fontFamily: "'Syne', sans-serif", marginBottom: 24, opacity: 0.6 }}>"</div>
+                <p className="testimonial-text" style={{
+                  fontFamily: "'Syne', sans-serif", fontSize: 22, lineHeight: 1.6,
+                  color: C.white, margin: 0, fontWeight: 500, letterSpacing: -0.3, maxWidth: 820,
+                }}>
+                  {t.quote}
+                </p>
+                <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 36 }}>
+                  <img src={t.logo} alt="Partner" style={{ height: 72, width: "auto", objectFit: "contain" }}/>
+                  <div style={{ marginLeft: "auto", display: "flex", gap: 3 }}>
+                    {[1,2,3,4,5].map(s => <StarIcon key={s} delay={0} triggered={isActive}/>)}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Dots */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 14, marginTop: 32 }}>
+          {TESTIMONIALS.map((_, idx) => {
+            const isActive = idx === active;
+            return (
+              <button key={idx} onClick={() => goTo(idx)} style={{
+                width: isActive ? 12 : 8,
+                height: isActive ? 12 : 8,
+                borderRadius: "50%",
+                background: isActive ? C.white : "rgba(255,255,255,0.2)",
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
+                transform: isActive ? "scale(1.2)" : "scale(1)",
+                boxShadow: isActive ? `0 0 12px rgba(255,255,255,0.3)` : "none",
+                transition: "all 0.4s cubic-bezier(.4,0,.2,1)",
+                WebkitTapHighlightColor: "transparent",
+              }}/>
+            );
+          })}
         </div>
       </div>
     </Card>
@@ -883,7 +956,7 @@ function ProductCard({ product, index, onOpen }) {
           {product.name}
         </h3>
 
-        <div className="card-details">
+        <div className="card-details" style={{ display: "flex", flexDirection: "column", flex: 1 }}>
           <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 13, color: C.muted, margin: "0 0 20px", lineHeight: 1.6 }}>
             {product.subtitle}
           </p>
@@ -902,7 +975,7 @@ function ProductCard({ product, index, onOpen }) {
           </div>
 
           {/* CTA */}
-          <div style={{ marginTop: 24 }} onClick={e => e.stopPropagation()}>
+          <div style={{ marginTop: "auto", paddingTop: 24 }} onClick={e => e.stopPropagation()}>
             <button
               onClick={onOpen}
               style={{
@@ -952,63 +1025,135 @@ function ProductsSection() {
   );
 }
 
-/* ─── CTA ─── */
-function CTASection() {
+/* ─── CTA + TEAM ─── */
+const TEAM_POINTS = [
+  { icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 1l2.5 6H19l-5.5 4 2 6.5L10 13.5 4.5 17.5l2-6.5L1 7h6.5z" fill="#22C55E"/></svg>, title: "Engineers & Technicians", desc: "On-site specialists across U.S. mining facilities" },
+  { icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M14.5 1.5l4 4-11 11H3.5v-4l11-11z" stroke="#22C55E" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>, title: "Diagnostics to Deployment", desc: "Repairs, firmware optimization, full-site rollouts" },
+  { icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M1 15l4-6 4 3 4-7 6 4" stroke="#22C55E" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>, title: "Your Equipment = Our Investment", desc: "Faster response, transparent communication, measurable results" },
+  { icon: <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="2" y="8" width="4" height="10" rx="1" fill="#22C55E" opacity="0.5"/><rect x="8" y="4" width="4" height="14" rx="1" fill="#22C55E" opacity="0.7"/><rect x="14" y="1" width="4" height="17" rx="1" fill="#22C55E"/></svg>, title: "Built for Scale", desc: "From single units to multi-megawatt operations" },
+];
+
+function TeamCard({ point, index, visible }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        display: "flex", gap: 16, alignItems: "flex-start",
+        padding: "12px 14px", borderRadius: 12,
+        borderLeft: hov ? `2px solid ${C.accent}` : "2px solid transparent",
+        background: hov ? "rgba(34,197,94,0.04)" : "transparent",
+        transform: hov ? "translateX(4px)" : visible ? "translateX(0)" : "translateX(20px)",
+        opacity: visible ? 1 : 0,
+        transition: `all 0.35s cubic-bezier(.22,1,.36,1) ${index * 100 + 150}ms`,
+        cursor: "default",
+      }}
+    >
+      <div style={{
+        width: 42, height: 42, borderRadius: 10, flexShrink: 0,
+        background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.2)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+      }}>{point.icon}</div>
+      <div>
+        <div style={{ fontFamily: "'Syne', sans-serif", fontSize: 15, fontWeight: 600, color: C.white }}>{point.title}</div>
+        <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: 13, color: C.muted, marginTop: 4, lineHeight: 1.5 }}>{point.desc}</div>
+      </div>
+    </div>
+  );
+}
+
+function CTATeamSection() {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
-  const [textReady, setTextReady] = useState(false);
 
   useEffect(() => {
     if (!ref.current) return;
     const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) {
-        setVisible(true);
-        setTimeout(() => setTextReady(true), 400);
-      }
-    }, { threshold: 0.15 });
+      if (e.isIntersecting) setVisible(true);
+    }, { threshold: 0.12 });
     obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
 
   return (
-    <div ref={ref} className="cta-section" style={{
-      borderRadius: 20, overflow: "hidden", position: "relative", minHeight: 460,
-      border: `1px solid ${C.border}`,
-      background: `linear-gradient(135deg, ${C.card} 0%, #0d1f14 50%, #0f1c12 100%)`,
-      clipPath: visible ? "inset(0% 0 0% 0 round 20px)" : "inset(40% 0 40% 0 round 20px)",
-      transition: "clip-path 0.8s cubic-bezier(0.22,1,0.36,1)",
+    <div ref={ref} className="cta-team-section" style={{
+      display: "grid", gridTemplateColumns: "1fr 1fr",
+      borderRadius: 20, overflow: "hidden",
+      borderTop: `1px solid ${C.border}`,
+      borderBottom: `1px solid ${C.border}`,
+      minHeight: 520, position: "relative",
     }}>
+      {/* Left — CTA with photo background */}
       <div style={{
-        position: "absolute", inset: 0,
-        background: `
-          radial-gradient(ellipse 500px 350px at 30% 60%, rgba(34,197,94,0.1), transparent),
-          radial-gradient(ellipse 400px 300px at 70% 40%, rgba(20,120,60,0.06), transparent)
-        `,
-      }}/>
-      <svg width="100%" height="100%" style={{ position: "absolute", inset: 0, opacity: 0.03 }}>
-        <defs><pattern id="cg" width="40" height="40" patternUnits="userSpaceOnUse">
-          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5"/>
-        </pattern></defs>
-        <rect width="100%" height="100%" fill="url(#cg)"/>
-      </svg>
-
-      <div className="cta-content" style={{
-        position: "relative", zIndex: 2,
-        display: "flex", flexDirection: "column",
-        alignItems: "center", justifyContent: "center",
-        textAlign: "center", padding: "80px 40px", minHeight: 460,
-        opacity: textReady ? 1 : 0,
-        transform: textReady ? "translateY(0)" : "translateY(20px)",
-        transition: "opacity 0.6s ease, transform 0.6s ease",
+        position: "relative",
+        display: "flex", flexDirection: "column", justifyContent: "center",
+        padding: "56px 48px",
+        overflow: "hidden",
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateX(0)" : "translateX(-20px)",
+        transition: "opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1)",
       }}>
-        <h2 className="cta-h2" style={{ fontFamily: "'Syne', sans-serif", fontSize: 48, fontWeight: 800, color: C.white, lineHeight: 1.1, margin: 0, maxWidth: 620, letterSpacing: -2 }}>
-          Built on trust. <span style={{ color: C.accent }}>Powered by performance.</span>
-        </h2>
-        <p className="cta-p" style={{ fontFamily: "'Outfit', sans-serif", fontSize: 17, color: C.muted, maxWidth: 480, margin: "24px 0 0", lineHeight: 1.7 }}>
-          Professional crypto-mining services you can rely on. ASIC repair, optimization, and miner support — all in one place.
-        </p>
-        <div style={{ marginTop: 36 }}>
-          <Btn pulse>Get a quote now!</Btn>
+        {/* Photo bg */}
+        <img src="/team-photo.jpg" alt="" style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%",
+          objectFit: "cover", objectPosition: "center 35%", zIndex: 0,
+        }}/>
+        {/* Green overlay */}
+        <div style={{
+          position: "absolute", inset: 0, zIndex: 1,
+          background: "linear-gradient(135deg, rgba(0,30,10,0.82) 0%, rgba(34,197,94,0.15) 100%)",
+        }}/>
+        {/* Bottom fade */}
+        <div style={{
+          position: "absolute", bottom: 0, left: 0, right: 0, height: "40%", zIndex: 1,
+          background: "linear-gradient(to bottom, transparent 0%, rgba(8,8,13,0.8) 100%)",
+        }}/>
+
+        {/* Text content */}
+        <div style={{ position: "relative", zIndex: 2 }}>
+          <h2 className="cta-h2" style={{
+            fontFamily: "'Syne', sans-serif", fontSize: 44, fontWeight: 800,
+            color: C.white, lineHeight: 1.1, margin: 0, letterSpacing: -2,
+            textShadow: "0 0 80px rgba(34,197,94,0.25)",
+          }}>
+            Built on trust.<br/><span style={{ color: C.accent }}>Powered by performance.</span>
+          </h2>
+          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 15, color: "rgba(255,255,255,0.65)", maxWidth: 380, margin: "24px 0 0", lineHeight: 1.7 }}>
+            Professional crypto-mining services you can rely on. ASIC repair, optimization, and miner support — all in one place.
+          </p>
+          <div style={{ marginTop: 32 }}>
+            <Btn onClick={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })}>See Products</Btn>
+          </div>
+        </div>
+      </div>
+
+      {/* Center divider */}
+      <div className="cta-team-divider" style={{
+        position: "absolute", left: "50%", top: "10%", bottom: "10%", width: 1,
+        background: "rgba(34,197,94,0.12)", zIndex: 5, pointerEvents: "none",
+      }}/>
+
+      {/* Right — Team highlights */}
+      <div style={{
+        background: C.surface, padding: "48px 44px",
+        display: "flex", flexDirection: "column", justifyContent: "center",
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateX(0)" : "translateX(20px)",
+        transition: "opacity 0.7s cubic-bezier(.22,1,.36,1) 0.15s, transform 0.7s cubic-bezier(.22,1,.36,1) 0.15s",
+      }}>
+        <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, fontWeight: 600, color: C.accent, letterSpacing: "0.2em", textTransform: "uppercase" }}>Our Team</span>
+        <h3 style={{
+          fontFamily: "'Syne', sans-serif", fontSize: "clamp(1.75rem, 3vw, 2.5rem)",
+          fontWeight: 700, color: C.white, margin: "12px 0 32px", letterSpacing: -0.5, lineHeight: 1.2,
+        }}>
+          The people behind your uptime
+        </h3>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {TEAM_POINTS.map((p, i) => (
+            <TeamCard key={i} point={p} index={i} visible={visible}/>
+          ))}
         </div>
       </div>
     </div>
@@ -1187,6 +1332,7 @@ export default function BloomLanding() {
         ::selection { background: ${C.accentSoft}; color: ${C.accent}; }
         a { text-decoration: none; }
         img { max-width: 100%; height: auto; }
+        [id] { scroll-margin-top: 80px; }
 
         @keyframes fadeSlide {
           from { opacity: 0; transform: translateY(8px); }
@@ -1207,6 +1353,14 @@ export default function BloomLanding() {
         @keyframes slideInRight {
           from { opacity: 0; transform: translateX(40px); }
           to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes heroPhotoLeft {
+          from { transform: translateX(-8px) scale(1.04); }
+          to   { transform: translateX(0) scale(1); }
+        }
+        @keyframes heroPhotoRight {
+          from { transform: translateX(8px) scale(1.04); }
+          to   { transform: translateX(0) scale(1); }
         }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes modalSlideUp { from { opacity: 0; transform: translateY(40px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
@@ -1304,7 +1458,7 @@ export default function BloomLanding() {
         /* Tablet ≤1023 */
         @media (max-width: 1023px) {
           .nav-bar { padding: 0 20px !important; }
-          .nav-tags { display: none !important; }
+          .nav-links-desktop { display: none !important; }
           .nav-hamburger { display: flex; }
           .hero-nav-links { display: none !important; }
           .hero-card { min-height: 480px !important; }
@@ -1322,7 +1476,9 @@ export default function BloomLanding() {
           .page-wrapper { padding: 68px 14px 28px !important; gap: 12px !important; }
 
           /* Hero */
-          .hero-card { min-height: unset !important; border-radius: 16px !important; }
+          .hero-card { min-height: 100svh !important; border-radius: 16px !important; }
+          .hero-photo-left { width: 100% !important; height: 55% !important; }
+          .hero-photo-right { width: 100% !important; height: 45% !important; top: 55% !important; right: unset !important; left: 0 !important; }
           .hero-nav { padding: 14px 16px !important; }
           .hero-content { padding: 24px 18px 48px !important; text-align: center !important; }
           .hero-h1 { font-size: clamp(28px, 8vw, 42px) !important; letter-spacing: -1.5px !important; }
@@ -1340,14 +1496,13 @@ export default function BloomLanding() {
           /* Stats */
           .stats-grid { grid-template-columns: repeat(2,1fr) !important; gap: 8px !important; }
           .stat-card {
-            padding: 18px 12px !important;
-            display: flex !important; align-items: center !important; justify-content: center !important;
+            padding: 16px 12px !important;
             text-align: center !important;
-            min-height: 72px !important;
+            min-height: unset !important;
             overflow: visible !important;
           }
-          .stat-card > div:first-child { display: none; }
-          .stat-label, .stat-sub { display: none !important; }
+          .stat-label { display: block !important; font-size: 11px !important; margin-top: 8px !important; text-align: center; }
+          .stat-sub { display: block !important; font-size: 10px !important; margin-top: 4px !important; text-align: center; line-height: 1.4 !important; }
           .stat-number {
             font-size: clamp(22px, 6vw, 30px) !important;
             white-space: nowrap !important;
@@ -1375,6 +1530,10 @@ export default function BloomLanding() {
           .cta-content { padding: 40px 18px !important; min-height: 300px !important; }
           .cta-h2 { font-size: clamp(22px, 6.5vw, 32px) !important; letter-spacing: -1px !important; max-width: 100% !important; }
           .cta-p { font-size: 14px !important; max-width: 100% !important; }
+
+          /* CTA+Team */
+          .cta-team-section { grid-template-columns: 1fr !important; }
+          .cta-team-divider { display: none !important; }
 
           /* Contact */
           .contact-grid { grid-template-columns: 1fr !important; min-height: unset !important; border-radius: 16px !important; }
@@ -1452,7 +1611,7 @@ export default function BloomLanding() {
         <ServicesSection/>
         <TestimonialSection/>
         <ProductsSection/>
-        <CTASection/>
+        <CTATeamSection/>
         <ContactFooterSection/>
       </div>
     </div>
