@@ -337,7 +337,7 @@ function HeroSection({ borderRadius, onMenuOpen }) {
         <div className="hero-photo-left" style={{
           position: "absolute", top: 0, left: 0, width: "50%", height: "100%", overflow: "hidden",
         }}>
-          <img src="/hero-left.png" alt="" style={{
+          <img src="/hero-left.webp" alt="" style={{
             width: "100%", height: "100%", objectFit: "cover", objectPosition: "center",
             animation: "heroPhotoLeft 2.2s ease-out both",
           }}/>
@@ -347,7 +347,7 @@ function HeroSection({ borderRadius, onMenuOpen }) {
         <div className="hero-photo-right" style={{
           position: "absolute", top: 0, right: 0, width: "50%", height: "100%", overflow: "hidden",
         }}>
-          <img src="/hero-right.png" alt="" style={{
+          <img src="/hero-right.webp" alt="" style={{
             width: "100%", height: "100%", objectFit: "cover", objectPosition: "center",
             animation: "heroPhotoRight 2.2s ease-out both",
           }}/>
