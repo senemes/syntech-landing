@@ -1448,6 +1448,8 @@ export default function BloomLanding() {
           .products-grid { grid-template-columns: repeat(2,1fr) !important; gap: 16px !important; }
           .testimonial-block { padding: 36px 28px !important; }
           .section-header { gap: 20px !important; }
+          .service-toggle { width: 44px !important; height: 26px !important; border-radius: 13px !important; padding: 2px !important; }
+          .service-toggle > div { width: 20px !important; height: 20px !important; }
         }
 
         /* Mobile ≤767px */
@@ -1493,7 +1495,8 @@ export default function BloomLanding() {
           .service-inner { flex-direction: column !important; gap: 8px !important; }
           .service-title { font-size: 16px !important; min-width: unset !important; }
           .service-row { padding: 16px 8px !important; margin: 0 -8px !important; }
-          .service-toggle { min-width: 44px !important; min-height: 44px !important; }
+          .service-toggle { width: 40px !important; height: 24px !important; min-width: unset !important; min-height: unset !important; border-radius: 12px !important; padding: 2px !important; }
+          .service-toggle > div { width: 18px !important; height: 18px !important; }
 
           /* Products */
           .products-grid { grid-template-columns: repeat(2,1fr) !important; gap: 10px !important; }
