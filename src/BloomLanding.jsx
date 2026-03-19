@@ -838,6 +838,7 @@ function ProductModal({ product, onClose }) {
           background: C.card,
           borderRadius: 24,
           border: `1px solid ${C.border}`,
+          position: "relative",
           width: "100%", maxWidth: 420,
           maxHeight: "90vh",
           overflow: "hidden",
@@ -845,6 +846,19 @@ function ProductModal({ product, onClose }) {
           animation: "modalSlideUp 0.3s cubic-bezier(.22,1,.36,1)",
         }}
       >
+        {/* Close */}
+        <button
+          onClick={onClose}
+          style={{
+            position: "absolute", top: 16, right: 16, zIndex: 10,
+            width: 36, height: 36, borderRadius: "50%",
+            background: "rgba(0,0,0,0.7)", border: "1px solid rgba(255,255,255,0.2)",
+            color: C.white, fontSize: 20, cursor: "pointer",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            backdropFilter: "blur(8px)",
+          }}
+        >&times;</button>
+
         {/* Image */}
         <div style={{ width: "100%", aspectRatio: "4/3", overflow: "hidden", background: C.surface, flexShrink: 0 }}>
           <img src={product.img} alt={product.name} style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
@@ -852,14 +866,6 @@ function ProductModal({ product, onClose }) {
 
         {/* Content */}
         <div style={{ padding: "28px 28px 32px", overflowY: "auto", display: "flex", flexDirection: "column", gap: 0 }}>
-          {/* Close */}
-          <button
-            onClick={onClose}
-            style={{
-              position: "absolute", top: 0, right: 0,
-              display: "none",
-            }}
-          />
 
           <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: 26, fontWeight: 700, color: C.white, margin: "0 0 12px", letterSpacing: -0.5 }}>
             {product.name}
@@ -885,19 +891,6 @@ function ProductModal({ product, onClose }) {
             ))}
           </div>
 
-          <button
-            style={{
-              width: "100%", padding: "14px 0", borderRadius: 50, border: "none",
-              background: C.white, color: C.bg,
-              fontFamily: "'Outfit', sans-serif", fontSize: 15, fontWeight: 700,
-              cursor: "pointer", letterSpacing: 0.5,
-              transition: "background 0.2s ease",
-            }}
-            onMouseEnter={e => e.target.style.background = C.accent}
-            onMouseLeave={e => e.target.style.background = C.white}
-          >
-            Quote
-          </button>
         </div>
       </div>
     </div>,
@@ -961,19 +954,6 @@ function ProductCard({ product, index, onOpen }) {
             {product.subtitle}
           </p>
 
-          {/* Features */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 12, flex: 1 }}>
-            {product.features.map((f, i) => (
-              <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                <div style={{ marginTop: 1 }}><CheckIcon/></div>
-                <div>
-                  <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: 13, fontWeight: 600, color: C.white }}>{f.title}: </span>
-                  <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: 13, color: C.muted, lineHeight: 1.55 }}>{f.desc}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
           {/* CTA */}
           <div style={{ marginTop: "auto", paddingTop: 24 }} onClick={e => e.stopPropagation()}>
             <button
@@ -988,7 +968,7 @@ function ProductCard({ product, index, onOpen }) {
                 transform: hov ? "translateY(-1px)" : "translateY(0)",
               }}
             >
-              Quote
+              More
             </button>
           </div>
         </div>
