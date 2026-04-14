@@ -143,7 +143,7 @@ function HamburgerBtn({ open, onClick }) {
   );
 }
 
-const NAV_ITEMS = [["Home","home"],["Services","services"],["Figures","figures"],["Products","products"],["Partners","partners"],["Contact","contact"],["Provider","#"]];
+const NAV_ITEMS = [["Home","home"],["Services","services"],["Figures","figures"],["Products","products"],["Partners","partners"],["Contact","contact"]];
 
 function HamburgerMenu({ open, onClose }) {
   useEffect(() => {
@@ -295,7 +295,7 @@ function Nav({ show, onMenuOpen }) {
         <img src="/logo.avif" alt="SynTech Trust" style={{ height: 54, width: "auto" }}/>
       </div>
       <div className="nav-links-desktop" style={{ display: "flex", gap: 24, alignItems: "center" }}>
-        {[["Home","home"],["Services","services"],["Figures","figures"],["Products","products"],["Partners","partners"],["Contact","contact"],["Provider","#"]].map(([label, id]) => (
+        {[["Home","home"],["Services","services"],["Figures","figures"],["Products","products"],["Partners","partners"],["Contact","contact"]].map(([label, id]) => (
           <a key={id} href={id === "#" ? "#" : `#${id}`} className="nav-link" style={{
             color: C.muted, textDecoration: "none", fontSize: 16,
             fontFamily: "'Outfit', sans-serif", fontWeight: 400, position: "relative",
@@ -891,6 +891,24 @@ function ProductModal({ product, onClose }) {
             ))}
           </div>
 
+          <button
+            onClick={() => {
+              onClose();
+              setTimeout(() => {
+                document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+              }, 100);
+            }}
+            style={{
+              width: "100%", padding: "14px", borderRadius: 10, border: "none",
+              background: C.accent, color: C.bg,
+              fontFamily: "'Outfit', sans-serif", fontSize: 15, fontWeight: 700,
+              cursor: "pointer", letterSpacing: 0.3,
+              transition: "opacity 0.2s, transform 0.2s",
+            }}
+            onMouseEnter={e => { e.target.style.opacity = "0.9"; e.target.style.transform = "translateY(-1px)"; }}
+            onMouseLeave={e => { e.target.style.opacity = "1"; e.target.style.transform = "translateY(0)"; }}
+          >Get a quote</button>
+
         </div>
       </div>
     </div>,
@@ -1141,10 +1159,39 @@ function CTATeamSection() {
 }
 
 /* ─── CONTACT + FOOTER ─── */
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyoBiGyruHaBZiD4L2fXMziGb27edpEMuAvt7vVsoZrSjQGS-GN-IOHr6NvH0pvvsUj/exec";
+
 function ContactFooterSection() {
   const fade = useFadeIn(0);
   const [form, setForm] = useState({ first: "", last: "", email: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }));
+
+  const handleSubmit = async () => {
+    if (!form.first || !form.email) return;
+    setSubmitting(true);
+    try {
+      await fetch(GOOGLE_SHEET_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          first: form.first,
+          last: form.last,
+          email: form.email,
+          message: form.message,
+          date: new Date().toLocaleDateString("en-GB"),
+        }),
+      });
+      setSubmitted(true);
+      setForm({ first: "", last: "", email: "", message: "" });
+    } catch (err) {
+      console.error("Submit error:", err);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   const inputStyle = {
     width: "100%", padding: "11px 14px", borderRadius: 8, fontSize: 13,
@@ -1229,20 +1276,20 @@ function ContactFooterSection() {
             <div className="name-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               <div>
                 <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, color: C.muted, marginBottom: 6, display: "block" }}>First name *</label>
-                <input placeholder="eg. John" value={form.first} onChange={set("first")} style={inputStyle}
+                <input placeholder="eg. John" name="first-name" autoComplete="given-name" value={form.first} onChange={set("first")} style={inputStyle}
                   onFocus={e => e.target.style.borderColor = C.accent}
                   onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.1)"}/>
               </div>
               <div>
                 <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, color: C.muted, marginBottom: 6, display: "block" }}>Last name</label>
-                <input placeholder="eg. Smith" value={form.last} onChange={set("last")} style={inputStyle}
+                <input placeholder="eg. Smith" name="last-name" autoComplete="family-name" value={form.last} onChange={set("last")} style={inputStyle}
                   onFocus={e => e.target.style.borderColor = C.accent}
                   onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.1)"}/>
               </div>
             </div>
             <div>
               <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, color: C.muted, marginBottom: 6, display: "block" }}>Email *</label>
-              <input placeholder="eg. john@company.com" value={form.email} onChange={set("email")} type="email" style={inputStyle}
+              <input placeholder="eg. john@company.com" name="email" autoComplete="email" value={form.email} onChange={set("email")} type="email" style={inputStyle}
                 onFocus={e => e.target.style.borderColor = C.accent}
                 onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.1)"}/>
             </div>
@@ -1253,16 +1300,20 @@ function ContactFooterSection() {
                 onFocus={e => e.target.style.borderColor = C.accent}
                 onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.1)"}/>
             </div>
-            <button style={{
+            <button
+              onClick={handleSubmit}
+              disabled={submitting || submitted}
+              style={{
               width: "100%", padding: "13px", borderRadius: 8, border: "none",
-              background: C.accent, color: C.bg,
+              background: submitted ? "#1a7a3a" : C.accent, color: C.bg,
               fontFamily: "'Outfit', sans-serif", fontSize: 14, fontWeight: 700,
-              cursor: "pointer", letterSpacing: 0.3,
-              transition: "opacity 0.2s, transform 0.2s",
+              cursor: submitting ? "wait" : "pointer", letterSpacing: 0.3,
+              transition: "opacity 0.2s, transform 0.2s, background 0.3s",
+              opacity: submitting ? 0.7 : 1,
             }}
-            onMouseEnter={e => { e.target.style.opacity = "0.9"; e.target.style.transform = "translateY(-1px)"; }}
-            onMouseLeave={e => { e.target.style.opacity = "1"; e.target.style.transform = "translateY(0)"; }}
-            >Submit</button>
+            onMouseEnter={e => { if (!submitting && !submitted) { e.target.style.opacity = "0.9"; e.target.style.transform = "translateY(-1px)"; } }}
+            onMouseLeave={e => { e.target.style.opacity = submitting ? "0.7" : "1"; e.target.style.transform = "translateY(0)"; }}
+            >{submitted ? "Sent ✓" : submitting ? "Sending..." : "Submit"}</button>
           </div>
         </div>
       </div>
